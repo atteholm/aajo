@@ -17,11 +17,10 @@ public class Soittotila {
 	private String[] valikko;
 	private int valitsin;
 	
-	public Soittotila(){
+	public Soittotila(IRLukija lukija, BrickLukija bricklukija){
 	
-		this.irsensori = new EV3IRSensor(SensorPort.S1);
-		this.lukija = new IRLukija(irsensori);
-		this.saadot = new BrickLukija();
+		this.lukija = lukija;
+		this.saadot = bricklukija;
 		this.soittaja = new Soittaja(60);
 		soittaja.asetaInstrumentti(0);
 		valikko = new String[4];
@@ -38,8 +37,6 @@ public class Soittotila {
 	
 	public void suorita(){
 	
-		lukija.start();
-		saadot.start();
 		int nappainkoodi;
 		boolean lopeta = false;
 		tekstivalikko.esitaValikko();
@@ -61,17 +58,17 @@ public class Soittotila {
 			 	switch (this.valitsin){
 			 	case 0:
 			 		tekstivalikko.tyhjennaNaytto();
-			 		soitintila(0);
+			 		soitintila(0,100);
 			 		tekstivalikko.esitaValikko();
 			 		break;
 			 	case 1:
 			 		tekstivalikko.tyhjennaNaytto();
-			 		soitintila(1);
+			 		soitintila(1,200);
 			 		tekstivalikko.esitaValikko();
 			 		break;
 			 	case 2:
 			 		tekstivalikko.tyhjennaNaytto();
-			 		soitintila(2);
+			 		soitintila(2,10);
 			 		tekstivalikko.esitaValikko();
 			 		break;
 			 	case 3:
@@ -83,20 +80,18 @@ public class Soittotila {
 			 }
 		
 		}while (!lopeta);
-		saadot.lopeta();
-		lukija.lopeta();
 		LCD.drawString("lopetetaan...", 0, 0);
 		Delay.msDelay(1000);
-		irsensori.close();
 		
 	}
 	
-	public void soitintila(int soitinvalinta){
+	public void soitintila(int soitinvalinta, int kesto){
 		
 		int komento = 0;
 		int saatoKomento = 0;
 		boolean lopeta = false;
 		soittaja.asetaInstrumentti(soitinvalinta);
+		soittaja.asetaKesto(kesto);
 		
 		
 		do{
@@ -105,34 +100,34 @@ public class Soittotila {
 			saatoKomento = saadot.annaKoodi();
 			switch (komento){
 			case 1:
-				soittaja.soita(200, 100);
+				soittaja.soita(200);
 				break;
 			case 2:
-				soittaja.soita(400, 100);
+				soittaja.soita(400);
 				break;
 			case 3:
-				soittaja.soita(600, 100);
+				soittaja.soita(600);
 				break;
 			case 4:
-				soittaja.soita(800, 100);
+				soittaja.soita(800);
 				break;
 			case 5:
-				soittaja.soita(1000, 100);
+				soittaja.soita(1000);
 				break;
 			case 6:
-				soittaja.soita(1200, 100);
+				soittaja.soita(1200);
 				break;
 			case 7:
-				soittaja.soita(1400, 100);
+				soittaja.soita(1400);
 				break;
 			case 8:
-				soittaja.soita(1600, 100);
+				soittaja.soita(1600);
 				break;
 			case 10:
-				soittaja.soita(1800, 100);
+				soittaja.soita(1800);
 				break;
 			case 11:
-				soittaja.soita(2000, 100);
+				soittaja.soita(2000);
 				break;
 			
 			}

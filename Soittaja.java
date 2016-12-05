@@ -6,6 +6,7 @@ public class Soittaja {
 	
 	private int[] instrumentti = new int[5];
 	private int aanenVoimakkuus;
+	private int kesto;
 	private final static int MAXVOL = 100;
 	
 	public Soittaja(int aanenVoimakkuus){
@@ -15,18 +16,23 @@ public class Soittaja {
 		}else{
 			this.aanenVoimakkuus = aanenVoimakkuus;
 		}
+		this.kesto = 100;
 				
 	}
 	
 	
 	public void asetaInstrumentti(int valinta){
 		if (valinta == 0){
-			asetaTaulukonArvot(4, 25, 500, 7000, 5);
+			asetaTaulukonArvot(20, 25, 500, 7000, 100);
 		}else if (valinta == 1){
-			asetaTaulukonArvot(10, 25, 2000, 1000, 25);
+			asetaTaulukonArvot(200, 20, 5000, 5000, 1000);
 		}else if (valinta == 2){
-			asetaTaulukonArvot(1, 8, 3000, 5000, 5);
+			asetaTaulukonArvot(1, 2, 100, 100, 5);
 		}
+	}
+	
+	public void asetaKesto(int kesto){
+		this.kesto = kesto;
 	}
 	
 	private void asetaTaulukonArvot(int i0, int i1, int i2, int i3, int i4){
@@ -49,8 +55,8 @@ public class Soittaja {
 		Sound.setVolume(aanenVoimakkuus);
 	}
 	
-	public void soita(int taajuus, int kesto){
-		Sound.playNote(instrumentti, taajuus, kesto);
+	public void soita(int taajuus){
+		Sound.playNote(instrumentti, taajuus, this.kesto);
 	}
 	
 	public int annaAanenVoimakkuus(){
